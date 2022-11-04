@@ -94,7 +94,6 @@ app.get('/productoRandom', (req, res) => {
     const min = (Math.min(...JSON.parse(fs.readFileSync(productos.fileName, 'utf-8')).map((x) => {return x.id})))
     const num = numRandom(min,max)
     productos.getById(num).then(randomProduct => res.send(randomProduct))
-
 })
 
 function numRandom(min, max) {
