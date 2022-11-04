@@ -3,6 +3,7 @@
 const express = require('express')
 const app = express()
 const fs = require('fs');
+const { title } = require('process');
 
 const PORT = 8080;
 
@@ -28,8 +29,8 @@ class Contenedor {
 
     async getById(num) {   
         try {  
-            const filtrado = await readFile(this.fileName).filter( x => {return x.id === num});
-            console.log(filtrado)
+            let filtred = await readFile(this.fileName).filter( x => {return x.id === num});
+            return filtred;
         }
         catch (err) {
             console.log (`El ID buscado no existe. \nDetalle del ${err}`)
@@ -39,7 +40,7 @@ class Contenedor {
     async getAll() {   
         try {  
             let reading = await readFile(this.fileName);
-            console.log(reading);
+            return reading;
         }
         catch (err) {
             console.log (`Hubo un error al intentar obtener todos los objetos: ${err}`)
@@ -74,7 +75,7 @@ function readFile(fileName) {
 
 
 //Ejecución del programa del desafio anterior
-const productos = new Contenedor('productos.txt');
+let productos = new Contenedor('productos.txt');
 
 
 //Ejecucion del programa del desafio actual
@@ -84,20 +85,23 @@ app.get("/", (req, res) => {
 
 
 app.get('/productos', (req, res) => {
-    let allProductos = productos.getAll();
-    res.send(allProductos);
+    productos.getAll().then(allProducts => res.send(allProducts))
 })
 
-app.get('/productosRandom', (req, res) => {
-    const num = Math.random();
-    let productoAleatorio = productos.getById(num);
-    res.send(productoAleatorio);
+
+app.get('/productoRandom', (req, res) => {
+    const max = (Math.max(...JSON.parse(fs.readFileSync(productos.fileName, 'utf-8')).map((x) => {return x.id})))
+    const min = (Math.min(...JSON.parse(fs.readFileSync(productos.fileName, 'utf-8')).map((x) => {return x.id})))
+    const num = numRandom(min,max)
+    productos.getById(num).then(randomProduct => res.send(randomProduct))
+
 })
+
+function numRandom(min, max) {
+    return Math.floor((Math.random () * (max - min + 1)) + min);
+};
+
 
 const server = app.listen(PORT, () => {
     console.log(`Servidor escuchando en el puerto ${PORT}`)
-})
-
-console.log(productos.getAll());
-console.log(productos.getById(1));
-
+});
