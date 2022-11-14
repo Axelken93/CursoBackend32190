@@ -9,7 +9,7 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
-app.use('/api', router)
+app.use('/api/productos', router)
 
 ///Configuración del Multer
 const storage = multer.diskStorage({
@@ -102,12 +102,12 @@ function checkId (num, path) {
 //Ejecución del programa: Desafio Actual
 
 //Devuelve todos los productos
-router.get('/productos', (req, res) => {
+router.get('/', (req, res) => {
     productos.getAll().then(allProducts => res.json(allProducts))
 });
 
 //Devuelve un producto segun su ID
-router.get('/productos/:num', (req, res) => {
+router.get('/:num', (req, res) => {
     const { num } = req.params
     if (checkId(num,`public/${productos.fileName}`)) {
         productos.getById(parseInt(num)).then(randomProduct => res.json(randomProduct))
@@ -118,7 +118,7 @@ router.get('/productos/:num', (req, res) => {
 
 
 //Recibe y agrega un producto. Devuelve su id asignado
-router.post('/productos', (req, res) => {
+router.post('/', (req, res) => {
     let newProduct = req.body
     newProduct.id = Math.max(...JSON.parse(fs.readFileSync(`public/${productos.fileName}`, 'utf-8')).map((x) => {return x.id}))+1
     productos.save(newProduct)
@@ -127,7 +127,7 @@ router.post('/productos', (req, res) => {
 
 
 //Recibe y actualiza un producto segun su id
-router.put('/productos/:num', (req, res) => {
+router.put('/:num', (req, res) => {
     const { num } = req.params
     const newProduct = req.body
     const oldArrayProducts = JSON.parse(fs.readFileSync(`public/${productos.fileName}`, 'utf-8'))
@@ -144,7 +144,7 @@ router.put('/productos/:num', (req, res) => {
 
 
 //Elimina un producto segun su ID
-router.delete('/productos/:num', (req, res) => {
+router.delete('/:num', (req, res) => {
     const { num } = req.params
     const oldArrayProducts = JSON.parse(fs.readFileSync(`public/${productos.fileName}`, 'utf-8'))
     const oldProduct = oldArrayProducts[parseInt(num)-1]

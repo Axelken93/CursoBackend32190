@@ -19,8 +19,8 @@
   },
   {
     "title": "Trapecio",
-    "price": "999",
-    "thumbnail": "https://trapecioimage.com",
+    "price": "750",
+    "thumbnail": "https://trapecio-image.com",
     "id": 4
   }
 ]
