@@ -1,0 +1,7 @@
+Motor de Planilla preferido:
+Prefiero para mi profecto el motor de plantillas EJS, me senti mas comodo trabajando con este motor
+en relacion a los demas. Si bien despues de unas horas de practicar en pug uno se va acostumbrando, 
+me parecio mas sencillo y con mejores funcionalidades EJS. 
+El peor de todos a mi entender fue Handlebars, primero porque no me permite utilizar routers, y si mi
+proyecto escala la idea es tener contenedores no solo de productos, sino de otras entidades para luego
+vincular con una DB en SQL. 
