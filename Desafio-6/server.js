@@ -16,38 +16,18 @@ app.use('/productos', router)
 app.use(express.static('./public'))
 app.set('view engine', 'ejs')
 
-const mensajes = [
-    { author: 'Dario', text: 'los temas están separados en tres bloques'},
-    { author: 'Ivan', text: 'ivan'},
-    { author: 'Ariel', text: 'Tony, Bruce'},
-    { author: 'Pedro', text: 'Choco'}
-]
-
-io.on('connection', socket =>{
-    console.log('Un cliente se ha conectado')
-
-    socket.emit('messages', mensajes)
-
-    socket.on('new-message', data => {
-        mensajes.push(data)
-
-        io.sockets.emit('messages', mensajes)
-    })
-})
-
-
-// Clase contenedor del desafio nro 2
+// Clase contenedor del desafio nro 2 - Le quito la asincronia 
 class Contenedor {
     constructor (fileName) {
         this.fileName = fileName
     };
 
-    async save(obj) {   
+    save(obj) {   
         try {
-            let data = await readFile(`public/${this.fileName}`)
+            let data = readFile(`public/${this.fileName}`)
             data.push(obj)
             let strData = JSON.stringify(data, null, 2)
-            await fs.promises.writeFile(`public/${this.fileName}`, strData)
+            fs.promises.writeFile(`public/${this.fileName}`, strData)
             return obj.id
         }
         catch (err) {
@@ -55,9 +35,9 @@ class Contenedor {
         }
     };
 
-    async getById(num) {   
+    getById(num) {   
         try {  
-            let filtred = await readFile(`public/${this.fileName}`).filter( x => {return x.id === num});
+            let filtred = readFile(`public/${this.fileName}`).filter( x => {return x.id === num});
             return filtred;
         }
         catch (err) {
@@ -65,9 +45,9 @@ class Contenedor {
         }
     };
 
-    async getAll() {   
+    getAll() {   
         try {  
-            let reading = await readFile(`public/${this.fileName}`);
+            let reading = readFile(`public/${this.fileName}`);
             return reading;
         }
         catch (err) {
@@ -75,20 +55,20 @@ class Contenedor {
         }
     };
 
-    async deleteById(num) {   
+    deleteById(num) {   
         try {
-            const data = await readFile(`public/${this.fileName}`).filter( x => {return x.id !== num});
+            const data = readFile(`public/${this.fileName}`).filter( x => {return x.id !== num});
             let stringData = JSON.stringify(data, null, 2)
-            await fs.promises.writeFile(`public/${this.fileName}`, stringData);
+            fs.promises.writeFile(`public/${this.fileName}`, stringData);
         }
         catch (err) {
             console.log (`Se presenta el siguiente ${err}`)
         }
     };
 
-    async deleteAll() {   
+    deleteAll() {   
         try {  
-            await fs.promises.writeFile(`public/${this.fileName}`, '');
+            fs.promises.writeFile(`public/${this.fileName}`, '');
         }
         catch (err) {
             console.log (`Se presenta el siguiente ${err}`)
@@ -110,53 +90,62 @@ function checkId (num, path) {
     } else {return false}
 }
 
-
-// GET 
-router.get('/index', (req, res) => {
-    const products = JSON.parse(fs.readFileSync(`public/${productos.fileName}`, 'utf-8'))
-    res.render('index', {products})
-})
-
-router.get('/', (req, res) => {
-    const products = JSON.parse(fs.readFileSync(`public/${productos.fileName}`, 'utf-8'))
-    res.render('insertproducts', {products})
-})
-
-
-// POST
-router.post('/', (req, res) => {
-    let newProduct = req.body
-    newProduct.id = Math.max(...JSON.parse(fs.readFileSync(`public/${productos.fileName}`, 'utf-8')).map((x) => {return x.id}))+1
-    productos.save(newProduct)
-    console.log(`ID del nuevo producto: ${newProduct.id}`)
-    res.redirect('/productos')  
-})
-
-// SOCKET IO -> Lista Productos
-// io.on('connection', socket =>{
-//     console.log('Un cliente se ha conectado')
-
-//     const products = JSON.parse(fs.readFileSync(`public/${productos.fileName}`, 'utf-8'))
-
-//     socket.emit('list', products)
-
-//     // socket.on('new-message', data => {
-//     //     mensajes.push(data)
-
-//     //     io.sockets.emit('messages', mensajes)
-//     // })
-// })
-
-
-
 ///Declaración de constantes
 const PORT = 8080
 
 //Ejecución del programa del desafio nro 2
 let productos = new Contenedor('productos.txt');
 
+
+
+// Get
+router.get('/index', (req, res) => {
+    const products = JSON.parse(fs.readFileSync(`public/${productos.fileName}`, 'utf-8'))
+    res.render('index', {products})
+})
+
+router.get('/', (req, res) => {
+    res.sendFile('/public/index.html', {root: __dirname})
+})
+
+// post
+router.post('/', (req, res) => {
+    let newProduct = req.body
+    newProduct.id = Math.max(...JSON.parse(fs.readFileSync(`public/${productos.fileName}`, 'utf-8')).map((x) => {return x.id}))+1
+    productos.save(newProduct)
+    console.log(`ID del nuevo producto: ${newProduct.id}`)
+    res.redirect('/productos') 
+})
+
+io.on('connection', socket =>{
+    console.log('Un cliente se ha conectado')
+
+    let pproducto = JSON.parse(fs.readFileSync(`public/${productos.fileName}`, 'utf-8'))
+
+    socket.emit('prueba', pproducto)
+    socket.on('new-product', data => {
+        console.log(data)
+    })
+
+    let message = JSON.parse(fs.readFileSync("public/historialMensajes.txt", 'utf-8'))
+
+    socket.emit('message', message)
+    socket.on('new-message', data => {
+        message.push(data)
+
+        //Guardar el historial de mensajes:
+        let strMsj = JSON.stringify(message, null, 2)
+        fs.promises.writeFile("public/historialMensajes.txt", strMsj)
+
+        io.sockets.emit('message', message)
+
+    });
+    
+    io.sockets.emit('prueba', pproducto)
+})
+
 ///Escuchando el programa
-const server = app.listen(PORT, (err) => {
+httpServer.listen(PORT, (err) => {
     if(err) throw new Error(`Error en el servidor ${err}`)
     console.log('Servidor escuchando en el ' + PORT)
 })

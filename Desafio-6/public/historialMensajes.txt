@@ -1,0 +1,10 @@
+[
+  {
+    "email": "Dario@1",
+    "text": "primer texto"
+  },
+  {
+    "email": "Ivan@2",
+    "text": "segundo texto"
+  }
+]
