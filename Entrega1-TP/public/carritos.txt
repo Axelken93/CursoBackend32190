@@ -40,31 +40,5 @@
         "id": 1
       }
     ]
-  },
-  {
-    "id": 3,
-    "timestamp": "2/12/2022, 01:14:50",
-    "productos": [
-      {
-        "nombre": "TTTT",
-        "timestamp": "no hay registros",
-        "descripcion": "Tiene tres lados",
-        "codigo": "T33",
-        "Precio": 990,
-        "Stock": 5,
-        "Foto": "https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_crop_square_48px-512.png",
-        "id": 2
-      },
-      {
-        "nombre": "FFFF",
-        "timestamp": "no hay registros",
-        "descripcion": "Tiene cuatro lados iguales",
-        "codigo": "J22",
-        "Precio": 111,
-        "Stock": 30,
-        "Foto": "https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_crop_square_48px-512.png",
-        "id": 9
-      }
-    ]
   }
 ]

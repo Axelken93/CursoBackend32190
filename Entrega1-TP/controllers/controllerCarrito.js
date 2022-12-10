@@ -93,6 +93,11 @@ function readFileArrayId() {
     return fileRead
 }
 
+function getProductFromProductos(num) {   
+    let filtred = readFile('./public/productos.txt').filter( x => {return x.id == num});
+    return filtred;
+}
+
 function assignedNewId(){
    return Math.max(...readFileArrayId())+1
 }
@@ -121,5 +126,6 @@ module.exports = {
     readFileArrayId,
     assignedNewId,
     checkIdProd,
+    getProductFromProductos,
     carrito,
 };
