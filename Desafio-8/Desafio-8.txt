@@ -48,6 +48,7 @@ Inicio) Utilización de Mongo Shell, creacion de DB y Collections.
     E) db.productos.deleteMany({price: {$lt: 1000}})
 
 6) Crear usuario solo lector:
+    use admin
     db.createUser({user: "pepe", pwd:"asd456",roles:[{role:"read", db:"ecommerce"}]})
 
     Verificación que no puede modificar la DB:
@@ -65,5 +66,9 @@ Inicio) Utilización de Mongo Shell, creacion de DB y Collections.
     db.productos.insertOne({title: "cilindo", price: 1100, thumbnail: "foto 12"})
 
 
+//ACLARACION IMPORTANTE:
+Como tengo Windows no me toma automaticamente el mecanismo --auth por lo tanto primero tuve que crear un usuario root
+y luego crear el usuario "pepe". Este procedimiento lo obtuve siguiendo el instructivo que ofrece Platzi:
+https://platzi.com/tutoriales/1533-mongodb/4988-activar-autenticacion-en-mongodb/
 
 
