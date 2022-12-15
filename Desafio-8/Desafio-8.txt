@@ -1,0 +1,69 @@
+Resolucion del desafio Nro 8
+
+Inicio) Utilización de Mongo Shell, creacion de DB y Collections.
+
+    I. En CMD:
+    PS C:\Users\flopi> mongod --dbpath "C:\Users\flopi\Desktop\Axel\Programacion\Curso-CoderHouse\Backend\TP\Desafios\Desafio-8\DB" 
+
+    II. En otra CMD:
+    mongosh
+
+    III. 
+    use ecommerce
+
+    IV.
+    db.createCollection('mensajes')
+    db.createCollection('productos')
+
+1) Agregar 10 documentos en cada collection. 
+    db.mensajes.insertMany([{email: "juan10@gmail.com", text: "texto de prueba 1"},{email: "El.kpo100@gmail.com", text: "texto de prueba 2"},{email: "19-wilde@gmail.com", text: "texto de prueba 3"},{email: "celesteyblanca@gmail.com", text: "texto de prueba 4"},{email: "militto.mas.10@gmail.com", text: "texto de prueba 5"},{email: "licha.lopezz@gmail.com", text: "texto de prueba 6"},{email: "osito-sigali@gmail.com", text: "texto de prueba 7"},{email: "elgordo-cardona@gmail.com", text: "texto de prueba 8"},{email: "gaviota1arias@gmail.com", text: "texto de prueba 9"},{email: "lapelota-avellaneda@gmail.com", text: "texto de prueba 10"}])
+    db.productos.insertMany([{title: "circulo", price: 200, thumbnail: "foto 1"},{title: "cuadrado", price: 950, thumbnail: "foto 2"},{title: "rombo", price: 1453, thumbnail: "foto 3"},{title: "trapecio", price: 1890, thumbnail: "foto 4"},{title: "triangulo", price: 2009, thumbnail: "foto 5"},{title: "rectangulo", price: 2764, thumbnail: "foto 6"},{title: "romboide", price: 3341, thumbnail: "foto 7"},{title: "poligono", price: 3910, thumbnail: "foto 8"},{title: "cubo", price: 4123, thumbnail: "foto 9"},{title: "esfera", price: 4869, thumbnail: "foto 10"}])
+
+2) ok con los comandos de arriba. 
+
+3) Listar todos los documentos de mensajes y productos:
+    db.mensajes.find()
+    db.productos.find()
+
+4) Contar la cantidad de documentos en mensajes y productos:
+    db.mensajes.countDocuments()
+    db.productos.estimatedDocumentCount()
+
+5) CRUD sobre productos:
+    A) db.productos.insertOne({title: "cono", price: 4660, thumbnail: "foto 11"})
+
+    B) Consultas por nombre especifico:
+        I. db.productos.find({price: {$lt: 1000}}) 
+
+        II. db.productos.find({$and: [{price: {$gt:1000}},{price: {$lt:3000}}]})
+
+        III. db.productos.find({price: {$gt: 3000}}) 
+
+        IV. db.productos.find().sort({price: 1}).limit(1).skip(2)
+
+    C) db.productos.updateMany({_id: {$exists: true}},{$set: {stock: 100}},{upsert:true})
+
+    D) db.productos.updateMany({price: {$gt: 4000}},{$set: {stock:0}})
+
+    E) db.productos.deleteMany({price: {$lt: 1000}})
+
+6) Crear usuario solo lector:
+    db.createUser({user: "pepe", pwd:"asd456",roles:[{role:"read", db:"ecommerce"}]})
+
+    Verificación que no puede modificar la DB:
+    I. Salgo en la primera terminal y ingreso con el comando 
+    PS C:\Users\flopi> mongod --dbpath "C:\Users\flopi\Desktop\Axel\Programacion\Curso-CoderHouse\Backend\TP\Desafios\Desafio-8\DB" --auth
+    
+    II. Ingreso en la segunda terminal con el usuario de pepe con el siguiente comando:
+    mongosh -u pepe -p asd456
+
+    III. Verificamos que puede visualizar los productos:
+    use ecommerce
+    db.productos.find()
+
+    IV. Verificamos que no pueda modificar la base de datos:
+    db.productos.insertOne({title: "cilindo", price: 1100, thumbnail: "foto 12"})
+
+
+
+
