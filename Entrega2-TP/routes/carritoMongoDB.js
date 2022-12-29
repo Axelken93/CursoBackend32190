@@ -1,6 +1,6 @@
 import express from 'express'
 const app = express()
-import { productMongodb, carritoMongodb, checkId, checkChartId, assignedNewId, assignedNewChartId, checkIfNewProductExist } from '../src/containers/containerMongoDB.js';
+import { productMongodb, carritoMongodb, checkId, checkChartId, assignedNewChartId, checkIfNewProductExist } from '../src/containers/containerMongoDB.js';
 import { admin } from'../utils/login.js'
 
 app.get('/:num?', (req, res) => {
@@ -117,7 +117,6 @@ app.post('/:num/productos/:id_prod', (req, res) => {
         res.json({ error: -1, descripcion: `ruta ${url} y metodo ${url} no autorizada`})
     }
 })
-
 
 app.delete('/:num', (req, res) => {
     if (admin) {
