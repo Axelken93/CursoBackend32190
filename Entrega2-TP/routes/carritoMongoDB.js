@@ -119,30 +119,6 @@ app.post('/:num/productos/:id_prod', (req, res) => {
 })
 
 
-
-// //Actualiza un producto segun su ID
-// app.put('/:num', (req, res) => {
-//     if (admin) {
-//         const { num } = req.params
-//         const newProduct = req.body
-//         newProduct.timestamp = new Date().toLocaleString()
-//         newProduct.id = num
-//         checkId(num).then((e)=> {
-//             if (e) {
-//                 mongodb.deleteByID(num).then(() => {
-//                     res.json(newProduct)
-//                     mongodb.save(newProduct)
-//                 })
-//             } else {
-//                 res.json({ error: "ID de producto no encontrado" })
-//             }
-//         })
-//     } else {
-//         res.json({ error: -1, descripcion: "ruta /api/productos y metodo POST no autorizada"})
-//     }
-// });
-
-
 app.delete('/:num', (req, res) => {
     if (admin) {
         const { num } = req.params
