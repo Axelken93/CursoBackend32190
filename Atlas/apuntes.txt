@@ -1,0 +1,9 @@
+mongodb+srv://axelken93:<password>@backend32190.e4b0dmz.mongodb.net/?retryWrites=true&w=majority
+
+                                                                    Despues de esta barra va el nombre de la base de dato
+Ej:
+mongodb+srv://axelken93:<password>@backend32190.e4b0dmz.mongodb.net/ecommerce?retryWrites=true&w=majority
+
+
+Firestore tambien hacer
+npm i @google-cloud/firestore
