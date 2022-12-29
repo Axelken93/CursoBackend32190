@@ -1,14 +1,26 @@
+import { selectDB } from './utils/config.js'
 import express from 'express'
 const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
+// Elegir la base de datos
+const BaseDatos = "firebase"
+
 //Routers
 const { Router } = express
-import { app as routerCarrito } from './routes/carritoMongoDB.js'
-import { app as productsRoute } from './routes/productosMongoDB.js'
+let routerCarrito = ""
+await import(`${selectDB(BaseDatos).carrito}`).then((elem)=> {
+    routerCarrito = elem.app
+})
+let productsRoute = ""
+await import(`${selectDB(BaseDatos).productos}`).then((elem)=> {
+    productsRoute = elem.app
+})
 
+//import { app as routerCarrito } from './routes/carritoFirebase.js'
+//import { app as productsRoute } from './routes/productosFirebase.js'
 
 //Configuracion del Routers
 app.use('/api/productos', productsRoute)
