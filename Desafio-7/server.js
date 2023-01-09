@@ -15,6 +15,8 @@ app.use('/productos', router)
 
 app.use(express.static('./public'))
 app.set('view engine', 'ejs')
+app.set('views', path.resolve(__dirname, 'views'));
+
 
 const { options } = require('./options/mysqlconn')
 const { ClienteSQL } = require('./controllers/sqlClass');
