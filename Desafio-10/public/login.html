@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desafio 10</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+</head>
+
+<body>
+
+  <div class="container-fluid mt-3">
+    <div class="jumbotron">
+      <h1 style="color:blue;">Login de usuario</h1>
+      <br>
+      <form action="/login" method="post" onsubmit="userLogin()">
+          <div class="form-group">
+              <label for="userName"><b>Ingrese su Nombre</b></label>
+              <input id="userName" class="form-control" type="text" name="userName" required minlength="1">
+          </div>
+          <button class="btn btn-success mt-3 mb-1">Ingresar</button>
+      </form>
+    </div>
+  
+
+  <script src="main.js"></script>
+
+</body>
+
+</html>
