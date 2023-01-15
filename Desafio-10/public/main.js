@@ -81,16 +81,17 @@ function userLogin() {
 
 
 socket.on('login', data => {
-    console.log(data)
     let contenido = `<h2 style="color:white;" class="m-3 p-3 text-capitalize fw-bold">Bienvenido ${data}</h2>
     <button onclick="location.href= '/logout'" class="btn btn-warning m-2 text-light">Desloguear</button>`
-    console.log(contenido)
     document.getElementById("loginUser").innerHTML = contenido
 })
 
 socket.on('logout', data => {
-    console.log(data)
     let contenido = `<h2 style="color:white;" class="m-3 p-3 text-capitalize fw-bold">Hasta Luego ${data}</h2>`
-    console.log(contenido)
     document.getElementById("logoutUser").innerHTML = contenido
+})
+
+socket.on('signin', data => {
+    let contenido = `${data}`
+    document.getElementById("loginUser").innerHTML = contenido
 })

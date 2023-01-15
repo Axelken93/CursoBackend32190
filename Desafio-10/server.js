@@ -214,6 +214,10 @@ io.on('connection', socket =>{
             getUser().then((data) => {
                 socket.emit('logout', data)
             })
+        } else {
+            let data = `<h2 style="color:white;" class="m-3 p-3 text-capitalize fw-bold">INICIE SESION</h2>
+            <button onclick="location.href= '/login'" class="btn btn-warning m-2 text-light">SignIn</button>`
+            socket.emit('signin', data)
         }
     })
 
