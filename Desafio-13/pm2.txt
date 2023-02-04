@@ -1,0 +1,27 @@
+Modo Fork:
+    1)    pm2 start server.js --name ModoFork --watch -- 8081
+
+Modo Cluster desde PM2:
+    1)    pm2 start server.js --name="ModoCluster" --watch -i max -- 8085
+
+Modo Cluster nativo de Node:
+    1)    pm2 start server.js --name ModoFork -- 8082 CLUSTER
+    
+
+EJERCICIO PRACTICO SOBRE NGINX:
+1) Redirigir /api/randoms hacia puerto 8081 y el resto todo a puerto 8080. 
+
+I. Para ello modificamos el config de nginx (ver archivo txt que dejo como modelo llamado nginx1.txt)
+II. Levanto un servidor en el puerto 8080 con node: 'node server.js 8080'
+III. Levanto un cluster de servidores en el puerto 8081 utilizando modulo nativo Cluster: 'pm2 start server.js --name ModoFork -- 8081 CLUSTER'
+
+
+2) Redirigir equitativamente /api/randoms hacia los puertos 8082, 8083, 8084, 8085 y el resto todo a puerto 8080.
+
+I. Para ello modificamos el config de nginx (ver archivo txt que dejo como modelo llamado nginx2.txt)
+II. Levanto un servidor en el puerto 8080 con node: 'node server.js 8080'
+III. Levanto un cluster de servidores en los puerto 8082, 8083, 8084, 8085 utilizando modulo nativo Cluster: 
+        'pm2 start server.js --name Server82 -- 8082 CLUSTER'
+        'pm2 start server.js --name Server83 -- 8083 CLUSTER'
+        'pm2 start server.js --name Server84 -- 8084 CLUSTER'
+        'pm2 start server.js --name Server85 -- 8085 CLUSTER'
