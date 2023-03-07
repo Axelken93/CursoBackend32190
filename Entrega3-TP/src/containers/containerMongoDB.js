@@ -37,6 +37,17 @@ class ContenedorMongoDB {
         }
     };
 
+    async getbyUsername(username) {
+        try {
+            await mongoDBConnection()
+            const rta = await this.db.find({mail: {$eq: username}}, {_id: 0})
+            return rta
+        }
+        catch (err) {
+            logger.error(`Hubo un error al intentar obtener el objeto con Username ${username}: ${err}`)
+        }
+    };
+
     async save(obj) {
         try {
             await mongoDBConnection()
@@ -285,6 +296,14 @@ async function destroySession() {
     return eliminado
 }
 
+async function getActiveUserInfo(){
+    let sessionName = await getUser()
+    let name = await usersMongodb.getbyUsername(sessionName)
+    let userInfo = name[0]
+    return userInfo
+}
+
+    
 
 export {
     productMongodb, 
@@ -299,5 +318,6 @@ export {
     checkIfNewProductExist,
     destroySession,
     getUser,
-    cantSesiones
+    cantSesiones,
+    getActiveUserInfo
 };

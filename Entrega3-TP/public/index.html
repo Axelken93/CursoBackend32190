@@ -15,60 +15,49 @@
       <div class="bg-success">
         <div class="d-flex justify-content-between m-1" id="loginUser"></div>
       </div>
-  <!-- 
+      <br>
+
+
       <div class="jumbotron">
-        <h1 style="color:blue;">Ingrese datos</h1>
+        <h1 style="color:blue;">Buscar Productos</h1>
+        <br>
+        <nav class="navbar navbar-light bg-light">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="/api/productos">Ver todos los Productos</a>
+          </div>
+        </nav>
+        <form action="/api/productos?" method="get">
+          <div class="input-group mb-3">
+            <input type="number" class="form-control" id="num" name="num" placeholder="Ingrese el numero de producto -> Ejemplo: 1" aria-label="Product Number" aria-describedby="button-addon2">
+          </div>
+        </form>
+      </div>
+      <br>
+<!-- 
+      <div class="jumbotron">
+        <h1 style="color:blue;">Ver Carrito</h1>
+        <br>
+        <nav class="navbar navbar-light bg-light">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="/api/productos">Ver todos los Productos</a>
+          </div>
+        </nav>
+        <form action="/api/productos?" method="get">
+          <div class="input-group mb-3">
+            <input type="number" class="form-control" id="num" name="num" placeholder="Ingrese el numero de producto -> Ejemplo: 1" aria-label="Product Number" aria-describedby="button-addon2">
+          </div>
+        </form>
+      </div>
+      <br> -->
+
+      <div class="jumbotron">
+        <h1 style="color:blue;">Información de Usuario</h1>
         <br>
 
-        <form action="/productos" method="post" onsubmit="refreshProducs()">
-
-            <div class="form-group">
-                <label for="title"><b>Nombre</b></label>
-                <input id="title" class="form-control" type="text" name="title" required minlength="1">
-            </div>
-
-            <div class="form-group">
-                <label for="price"><b>Precio</b></label>
-                <input id="price" class="form-control" type="number" name="price" required min="0" max="9999">
-            </div>
-
-            <div class="form-group">
-                <label for="thumbnail"><b>Foto</b></label>
-                <input id="thumbnail" class="form-control" type="text" name="thumbnail" required>
-            </div>
-
-            <button class="btn btn-success mt-3 mb-5">Enviar</button>
-        </form>
-
-        <button onclick="location.href= '/productos/index'" type="button" class="btn btn-dark">Ver Historial</button>
+        <div class="d-flex justify-content-between m-1" id="userInformation"></div>
 
       </div>
-    
-      <div class="jumbotron">
-        <h1>Mi tabla de productos</h1>
-        <div id="listaProductos"></div>
-      </div>
-      <hr>
-      <div class="jumbotron">
-        <h1>Centro de Mensajes</h1>
-        <div id="conversion"></div>
-        <form class="form-inline" onsubmit="return addMessage()" autocomplete="off">
-          <input type="email" id="email" class="form-control my-2 mr-2" placeholder="Ingrese su email" required>
-          <input type="text" id="nombre" class="form-control my-2 mr-2" placeholder="Ingrese su nombre" required>
-          <input type="text" id="apellido" class="form-control my-2 mr-2" placeholder="Ingrese su apellido" required>
-          <input type="number" id="edad" class="form-control my-2 mr-2" placeholder="Ingrese su edad" required>
-          <input type="text" id="alias" class="form-control my-2 mr-2" placeholder="Ingrese su Alias" required>
-          <input type="url" id="avatar" class="form-control my-2 mr-2" placeholder="Ingrese la URL de su avatar" required>
-          <input type="text" id="text" class="form-control my-2 mr-2" placeholder="Cuéntanos algo..." required>
-          <input class="btn btn-primary my-2" type="submit" value="Enviar!">
-        </form>
-    
-        <hr>
-        <div id="messages"></div>
-      </div>
-
-      <hr>
-    </div> -->
+      <br>
 
   <script src='main.js'></script>
   </body>

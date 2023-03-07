@@ -28,7 +28,37 @@ socket.on('logout', data => {
     document.getElementById("logoutUser").innerHTML = contenido
 })
 
-// socket.on('signin', data => {
-//     let contenido = `${data}`
-//     document.getElementById("loginUser").innerHTML = contenido
-// })
+socket.on('signin', data => {
+    let contenido = `${data}`
+    document.getElementById("loginUser").innerHTML = contenido
+})
+
+socket.on('userInfo', data => {
+    contenido = `<div>
+    <div class="form-group">
+        <p><b>Nombre:</b> ${data.nombre}</p>
+    </div>
+    <div class="form-group">
+    <img src=${data.foto} class="img-fluid" width="100">
+    </div>
+    <div class="form-group">
+        <p><b>Dirección:</b> ${data.direccion}</p>
+    </div>
+    <div class="form-group">
+        <p><b>Edad:</b> ${data.edad}</p>
+    </div>
+    <div class="form-group">
+    <p><b>Telefono:</b> ${data.telefono}</p>
+    </div>
+    <div class="form-group">
+    <p><b>Email:</b> ${data.mail}</p>
+    </div>
+    <div class="form-group">
+    <p><b>ID:</b> ${data.id}</p>
+    </div>
+
+
+
+</div>`
+    document.getElementById("userInformation").innerHTML = contenido
+})

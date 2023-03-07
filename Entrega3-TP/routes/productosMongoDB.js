@@ -3,8 +3,8 @@ const app = express()
 import { productMongodb, checkId, assignedNewId } from '../src/containers/containerMongoDB.js';
 import { admin } from'../utils/login.js'
 
-app.get('/:num?', (req, res) => {
-    const { num } = req.params
+app.get('/', (req, res) => {
+    const { num } = req.query
     if (!num) {
         productMongodb.getAll().then(allProducts => res.json(allProducts))
     } else {

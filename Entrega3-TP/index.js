@@ -16,7 +16,7 @@ app.use(express.json())
 
 app.use(express.static('./public'))
 
-import { cantSesiones, getUser } from './src/containers/containerMongoDB.js'
+import { cantSesiones, getUser, getActiveUserInfo } from './src/containers/containerMongoDB.js'
 
 
 // Elegir la base de datos
@@ -57,8 +57,6 @@ io.on('connection', socket => {
 
     console.log("Un cliente se ha conectado")
 
-    // let pproducto = "AxelKen"
-    // socket.emit('prueba', pproducto)
 
     socket.on('mensaje', data => {
         console.log(data)
@@ -73,6 +71,10 @@ io.on('connection', socket => {
             getUser().then((data) => {
                 socket.emit('logout', data)
             })
+            getActiveUserInfo().then((data) => {
+                socket.emit('userInfo', data)
+            })
+
         } else {
             let data = `<h2 style="color:white;" class="m-3 p-3 text-capitalize fw-bold">INICIE SESION</h2>
             <button onclick="location.href= '/login'" class="btn btn-warning m-2 text-light">SignIn</button>`
