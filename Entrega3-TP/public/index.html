@@ -33,22 +33,23 @@
         </form>
       </div>
       <br>
-<!-- 
+
       <div class="jumbotron">
-        <h1 style="color:blue;">Ver Carrito</h1>
+        <h1 style="color:blue;">Buscar Carrito</h1>
         <br>
         <nav class="navbar navbar-light bg-light">
           <div class="container-fluid">
-            <a class="navbar-brand" href="/api/productos">Ver todos los Productos</a>
+            <a class="navbar-brand" href="/api/carrito">Ver todos los Carritos</a>
+            <form class="d-flex" action="/api/carrito?" method="get">
+              <input class="form-control me-2" id="num" name="num" type="search" placeholder="Carrito Nro ..." aria-label="Search">
+              <button class="btn btn-outline-success" onclick="finalizarCompra()" type="submit">Comprar</button>
+            </form>
           </div>
         </nav>
-        <form action="/api/productos?" method="get">
-          <div class="input-group mb-3">
-            <input type="number" class="form-control" id="num" name="num" placeholder="Ingrese el numero de producto -> Ejemplo: 1" aria-label="Product Number" aria-describedby="button-addon2">
-          </div>
-        </form>
+
+
       </div>
-      <br> -->
+      <br>
 
       <div class="jumbotron">
         <h1 style="color:blue;">Información de Usuario</h1>

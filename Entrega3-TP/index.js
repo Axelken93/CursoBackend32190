@@ -57,12 +57,6 @@ io.on('connection', socket => {
 
     console.log("Un cliente se ha conectado")
 
-
-    socket.on('mensaje', data => {
-        console.log(data)
-        console.log("Recibi el mensaje")
-    })
-
     cantSesiones().then((cantidad) => {
         if (cantidad !==0){
             getUser().then((data) => {

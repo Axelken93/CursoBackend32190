@@ -6,7 +6,7 @@ import logger from '../utils/winston-config.js'
 
 
 app.get('/:num?', (req, res) => {
-    const { num } = req.params
+    const { num } = req.query
     if (!num) {
         carritoMongodb.getAll().then(allCharts => res.json(allCharts))
     } else {

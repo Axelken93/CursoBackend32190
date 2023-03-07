@@ -7,7 +7,7 @@ import { Strategy as LocalStrategy } from 'passport-local'
 import { usersMongodb, sessionMongodb, assignedNewUserId, destroySession, getUser, cantSesiones } from '../src/containers/containerMongoDB.js'
 
 import logger from "../utils/winston-config.js"
-
+import { sendMailNotification }from "../utils/nodemailer.js"
 import bcrypt from 'bcryptjs'
 
 import cookieParser from 'cookie-parser'
@@ -56,6 +56,7 @@ passport.use('register', new LocalStrategy({
         id: userID
     }
     usersMongodb.save(newUser)
+    sendMailNotification('Nuevo Registro', newUser)
 
 
     done(null, newUser)
