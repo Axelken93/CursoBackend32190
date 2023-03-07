@@ -28,7 +28,7 @@ function selectDB(databaseName){
 
 
 async function mongoDBConnection (){
-    const URL = "mongodb+srv://axelken93:Racing200793@backend32190.e4b0dmz.mongodb.net/ecommerce?retryWrites=true&w=majority"
+    const URL = process.env.MAURLMONGO
     try{
         await mongoose.connect(URL, {
             useNewUrlParser: true,

@@ -8,7 +8,7 @@ const transporter = nodemailer.createTransport({
   port: 587,
   auth: {
     user: mailGmail,
-    pass: 'lfauunlsdpefalvs'
+    pass: process.env.MAPASSNODEMAILER
   }
 })
 
@@ -44,5 +44,28 @@ async function sendMailNotification(asunto, mensaje) {
     
 }
 
-export {sendMailNotification};
+
+async function sendMailPurchase(asunto, mensaje) {
+    try {
+        const mailOptions = {
+        from: 'My Servidor Node.js',
+        to: [mailGmail],
+        subject: asunto,
+        html: mensaje,
+        //   attachments: [
+        //     {
+        //       path: './grogu.webp'
+        //     }
+        //   ]
+        }
+
+        await transporter.sendMail(mailOptions)
+        logger.info("Mensaje enviado con exito")
+    } catch(error) {
+        logger.error(error)
+    }
+    
+}
+
+export {sendMailNotification, sendMailPurchase};
 

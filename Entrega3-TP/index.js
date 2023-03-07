@@ -17,6 +17,7 @@ app.use(express.json())
 app.use(express.static('./public'))
 
 import { cantSesiones, getUser, getActiveUserInfo } from './src/containers/containerMongoDB.js'
+import { compraFinalizada } from './routes/finalizar-compra.js'
 
 
 // Elegir la base de datos
@@ -68,12 +69,15 @@ io.on('connection', socket => {
             getActiveUserInfo().then((data) => {
                 socket.emit('userInfo', data)
             })
-
         } else {
             let data = `<h2 style="color:white;" class="m-3 p-3 text-capitalize fw-bold">INICIE SESION</h2>
             <button onclick="location.href= '/login'" class="btn btn-warning m-2 text-light">SignIn</button>`
             socket.emit('signin', data)
         }
+    })
+
+    socket.on('finalizar-compra', numCarrito => {
+        compraFinalizada(numCarrito)
     })
 
 })

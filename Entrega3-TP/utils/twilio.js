@@ -1,8 +1,8 @@
 import twilio from 'twilio'
 import logger from "./winston-config.js"
 
-const accountSid = 'ACa2630de2f76186abd32993d9694c367b';
-const authToken = '4a1b02344843a495b5c9396945772751';
+const accountSid = process.env.MAKEYTWILIO;
+const authToken = process.env.MAPASSTWILIO;
 
 const twilioClient = twilio(accountSid, authToken)
 

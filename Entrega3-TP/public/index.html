@@ -40,9 +40,9 @@
         <nav class="navbar navbar-light bg-light">
           <div class="container-fluid">
             <a class="navbar-brand" href="/api/carrito">Ver todos los Carritos</a>
-            <form class="d-flex" action="/api/carrito?" method="get">
-              <input class="form-control me-2" id="num" name="num" type="search" placeholder="Carrito Nro ..." aria-label="Search">
-              <button class="btn btn-outline-success" onclick="finalizarCompra()" type="submit">Comprar</button>
+            <form class="d-flex" action="/api/carrito?" method="get" onsubmit="finalizarCompra()">
+              <input class="form-control me-2" id="hola" name="num"  placeholder="Carrito Nro ...">
+              <button class="btn btn-outline-success" type="submit">Comprar</button>
             </form>
           </div>
         </nav>

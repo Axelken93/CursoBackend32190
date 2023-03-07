@@ -134,3 +134,12 @@
 {"level":"warn","message":{"descripcion":"Ruta /socket.io/?EIO=4&transport=polling&t=OQvA9st y metodo GET no implementado","error":-2}}
 {"level":"warn","message":{"descripcion":"Ruta /socket.io/?EIO=4&transport=polling&t=OQvAB5I y metodo GET no implementado","error":-2}}
 {"level":"warn","message":{"descripcion":"Ruta /socket.io/?EIO=4&transport=polling&t=OQvACJs y metodo GET no implementado","error":-2}}
+{"code":20003,"level":"error","moreInfo":"https://www.twilio.com/docs/errors/20003","status":401}
+{"level":"error","message":"No se pudo finalizar la compra -> Error:TypeError: Cannot read properties of undefined (reading 'productos')"}
+{"code":20003,"level":"error","moreInfo":"https://www.twilio.com/docs/errors/20003","status":401}
+{"code":20003,"level":"error","moreInfo":"https://www.twilio.com/docs/errors/20003","status":401}
+{"code":20003,"level":"error","moreInfo":"https://www.twilio.com/docs/errors/20003","status":401}
+{"code":20003,"level":"error","moreInfo":"https://www.twilio.com/docs/errors/20003","status":401}
+{"level":"error","message":"No se pudo finalizar la compra -> Error:ReferenceError: sendTwilioSMS is not defined"}
+{"code":20003,"level":"error","moreInfo":"https://www.twilio.com/docs/errors/20003","status":401}
+{"code":20003,"level":"error","moreInfo":"https://www.twilio.com/docs/errors/20003","status":401}

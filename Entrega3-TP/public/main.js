@@ -45,3 +45,9 @@ socket.on('userInfo', data => {
 </div>`
     document.getElementById("userInformation").innerHTML = contenido
 })
+
+function finalizarCompra() {
+    const numCarrito = document.getElementById("hola").value
+    //const numCarrito = 33
+    socket.emit('finalizar-compra', numCarrito)
+}
