@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 import admin from "firebase-admin"
 import serviceAccount from './../src/db/firebase/dos-entrega-final-backend-firebase-adminsdk-n3wj5-cf6c91ffbc.json' assert {type: "json"};
 import logger from "./winston-config.js"
+import dotenv from 'dotenv'
+dotenv.config({
+    path: '.env'
+})
 
 function selectDB(databaseName){
     let nombre = databaseName.toLowerCase()

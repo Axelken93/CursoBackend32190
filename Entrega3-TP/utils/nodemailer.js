@@ -1,5 +1,9 @@
 import nodemailer from 'nodemailer';
 import logger from "./winston-config.js"
+import dotenv from 'dotenv'
+dotenv.config({
+    path: '.env'
+})
 
 const mailGmail = 'abalbibieco@gmail.com'
 

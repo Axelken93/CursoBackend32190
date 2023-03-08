@@ -1,7 +1,52 @@
 import express from 'express'
+import { createServer } from "http";
 const app = express()
+const httpServer = createServer(app);
+
+import cluster from 'cluster'
+import os from 'os'
+let numCPUs = os.cpus().length
 import { productMongodb, checkId, assignedNewId } from '../src/containers/containerMongoDB.js';
 import { admin } from'../utils/login.js'
+
+//Modo Cluster Hardcodeado
+const clusterMode = true
+
+if (clusterMode) {
+    if (cluster.isMaster) {
+        for (let i = 0; i < numCPUs; i++) {
+            cluster.fork()
+        }
+    
+        cluster.on('exit', worker => {
+            console.log(`Worker ${worker.process.pid} died: ${new Date().toString()}`)
+        })
+    } else {
+
+        app.get('/', (req, res) => {
+            const { num } = req.query
+            if (!num) {
+                productMongodb.getAll().then(allProducts => res.json(allProducts))
+            } else {
+                checkId(num).then((e)=> {
+                    if (e) {
+                        productMongodb.getbyID(parseInt(num)).then(Product => res.json(Product))
+                    } else {
+                        res.json({ error: "Producto no encontrado" })
+                    }
+                })
+            }
+        });
+        const PORT = process.env.PORT || 8080;
+
+        httpServer.listen(PORT, (err) => {
+            if(err) throw new Error(`Error en el servidor ${err}`)
+            logger.info('Servidor escuchando en el ' + PORT)
+        })
+    }    
+}
+
+
 
 app.get('/', (req, res) => {
     const { num } = req.query

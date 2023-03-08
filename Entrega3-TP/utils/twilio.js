@@ -1,5 +1,9 @@
 import twilio from 'twilio'
 import logger from "./winston-config.js"
+import dotenv from 'dotenv'
+dotenv.config({
+    path: '.env'
+})
 
 const accountSid = process.env.MAKEYTWILIO;
 const authToken = process.env.MAPASSTWILIO;
