@@ -33,7 +33,7 @@ Se deben incluir en nuestro archivo de `package.json` las siguientes dependencia
 "passport": "^0.6.0",
 "passport-local": "^1.0.0",
 "socket.io": "^4.6.1"
-
+```
 
 2. *Creación de archivo de variables de entorno:*
 
@@ -59,11 +59,78 @@ Al ejecutar nuestra aplicación debemos elegir en qué ambiente queremos levanta
 ```console
 node server.js –m production
 node server.js –m development
-
+```
 
 ## Autenticación y autorización
 
-[Por agregar]
+### Introducción
+La autenticación y autorización son procesos importantes en una aplicación web para proteger los recursos y datos del usuario. En esta API, se utiliza Passport, una biblioteca de autenticación para Node.js que proporciona una forma fácil de implementar diferentes estrategias de autenticación. Puedes consultar la [documentación de Passport](https://www.passportjs.org/docs/) para más información sobre cómo utilizarlo.
+
+### Autenticación
+Para la autenticación, se verifica el nombre de usuario y la contraseña ingresados por el usuario con los datos almacenados en la base de datos. En caso de que los datos sean correctos, se genera un token de sesión que se almacena en la cookie del navegador del usuario. El token de sesión se utiliza para identificar al usuario en las solicitudes posteriores.
+
+#### Recursos disponibles
+| Método HTTP | Ruta | Descripción |
+| --- | --- | --- |
+| GET | /login | Muestra el mensaje para realizar el inicio de sesión. |
+| POST | /login | Verifica las credenciales del usuario y lo autentica en el sistema. |
+| GET | /faillogin | Muestra un mensaje de error si el inicio de sesión falla. |
+| GET | /logout | Cierra la sesión actual del usuario. |
+| GET | /register | Muestra el mensaje de registro de usuario. |
+| POST | /register | Registra a un nuevo usuario en el sistema. |
+| GET | /failregister | Muestra un mensaje de error si el registro de usuario falla. |
+
+### Registro de usuario
+Para registrarse en la aplicación, el usuario debe enviar una solicitud POST a la ruta /register con su nombre, correo electrónico, contraseña, dirección y teléfono. Esta información será almacenada de forma segura en la base de datos. Ejemplo:
+
+```console
+{
+"nombre": "Axel",
+"username": "axelken93@hotmail.com",
+"password": "axelken",
+"direccion": "Las Flores, Argentina",
+"telefono": 123456789
+}
+```
+
+Si el registro es exitoso, el usuario será redirigido a la página de inicio de sesión. En caso contrario, se mostrará un mensaje de error en la ruta /failregister. Ejemplo:
+
+```console
+{
+"Error": "Usted ha ingresado mal algun dato. Asegurese de ingresar Nombre, Mail, Password, Direccion y telefono"
+}
+```
+
+
+*Notificación:* Al registrarse un nuevo usuario se enviará automáticamente un correo electrónico al mail del administrador del api.
+
+### Inicio de sesión
+Para iniciar sesión, el usuario debe enviar una solicitud POST a la ruta /login con su nombre de usuario y contraseña. Ejemplo:
+
+```console
+{
+"username": "axelken93@hotmail.com",
+"password": "axelken"
+}
+```
+
+Si las credenciales son correctas, la sesión se inicia y se redirige al usuario a la página principal. En caso contrario, se muestra un mensaje de error en la ruta /faillogin.
+
+### Cierre de sesión
+Para cerrar la sesión, el usuario debe enviar una solicitud GET a la ruta /logout. La sesión actual se cerrará y el usuario recibirá un mensaje informando el cierre de sesion. Ejemplo:
+
+```console
+{
+"Status": "Usted ha cerrado sesion"
+}
+```
+
+### Autenticación
+La autorización en esta API se realiza a través de middleware que se encarga de verificar si el usuario tiene los permisos necesarios para acceder a ciertas rutas y verifica si tiene el token de sesión activo, si el usuario inicia sesión de forma correcta puede acceder a las rutas protegidas de la API, como la ruta `/productos`. Si el usuario intenta acceder a una ruta protegida sin un token de sesión válido, se le redirigirá automáticamente a la página de inicio de sesión. Lo mismo sucede si el usuario no genera ninguna petición la sesión expira a los 10 minutos. 
+
+### Seguridad:
+La seguridad es un aspecto crítico en cualquier aplicación web. En esta API, se utilizan prácticas de seguridad recomendadas, como la verificación de contraseñas utilizando la función bcrypt () de Node.js, que almacena contraseñas con una función hash y sal de manera segura. Además, se utilizan tokens de sesión que se almacenan en cookies seguras con HttpOnly y Secure para evitar ataques CSRF y XSS. Puede consultar la [documentación de Bcrypt](https://github.com/kelektiv/node.bcrypt.js) para mas información sobre como utilizarlo.
+
 
 ## Endpoint
 
