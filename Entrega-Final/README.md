@@ -134,4 +134,183 @@ La seguridad es un aspecto crítico en cualquier aplicación web. En esta API, s
 
 ## Endpoint
 
-[Por agregar]
+### Introducción
+
+Nuestra API está desarrollada para manejar la lógica de un Ecommerce basados en cuatro ejes de trabajo: Productos, Carritos, Ordenes y un Sistema de Chat.
+
+### Productos
+
+Sobre este endpoint podemos obtener productos, agregar nuevos, modificar o eliminar productos. A continuación, detallamos una lista de los métodos HTTP disponibles para este endpoint:
+
+1. #### GET /productos/:categoría?
+
+Obtiene una lista de productos según la categoría especificada. Si no se especifica ninguna categoría, se devuelven todos los productos.
+
+##### *- Parámetros*
+
+| Parámetro | Tipo | Descripción |
+|-----------|------|-------------|
+| categoría | string | (Opcional) La categoría de los productos a consultar. |
+
+##### *- Respuesta*
+
+Obtenemos un array con todos los productos almacenados en la base de datos. Cada uno de estos productos debe contener obligatoriamente un id, nombre, categoría y precio. Ejemplo:
+
+```json
+[
+    {
+        "id": 1,
+        "nombre": "Cuadrado",
+        "categoria": "Geometria",
+        "precio": 444
+    },
+    {
+        "id": 2,
+        "nombre": "Circulo",
+        "categoria": "Geometria",
+        "precio": 800
+    }
+]
+```
+
+2. #### GET /productos/:num
+
+Obtiene un producto según el ID especificado. Si no se especifica ninguna ID, se devuelven todos los productos.
+
+##### *- Parámetros*
+
+| Parámetro | Tipo | Descripción |
+|-----------|------|-------------|
+| num | int | (Opcional) El ID del producto a consultar. |
+
+##### *- Respuesta*
+
+Obtenemos un objeto del producto con ID indicado almacenado en la base de datos. Ejemplo:
+
+```json
+	{
+		"id": 1,
+		"nombre": "Cuadrado",
+		"categoria": "Geometria",
+		"precio": 444
+	}
+
+```
+
+##### *- Error:*
+En caso de indicar un ID no numerico nos dará una respuesta de Error con el mensaje que el ID debe ser de tipo numerico. Si se indica por parámetro un ID numerico pero que no coincide con ningún ID almacenado nos dará un Error con el mensaje que el producto con el ID indicado no ha sido encontrado. Ejemplo:
+
+```json
+{
+	"Error": "Producto con ID 4 no encontrado"
+}
+```
+
+3. #### POST /productos
+
+Crea y almacena un nuevo producto. 
+
+##### *- Body*
+
+| Concepto | Tipo | Descripción |
+|----------|------|-------------|
+| nombre | string | (Obligatorio) Nombre del producto |
+| precio | number | (Obligatorio) Precio del producto |
+| categoria |string | (Obligatorio) Categoría del producto |
+
+
+##### *- Respuesta*
+
+Obtenemos un objeto del producto con la información enviada en el body y la incorporación del numero de ID que le corresponde que ha sido generado de forma incremental y automáticamente. Ejemplo:
+
+```json
+{
+	"id": 3,
+	"nombre": "Triangulo",
+	"categoria": "Geometria",
+	"precio": 333
+}
+```
+
+##### *- Error:*
+En caso de enviar un objeto por body que no incluya algun campo obligatorio (nombre, categoría o precio) nos devuelve un error con el mensaje que dicho campo es requerido:
+
+```json
+{
+	"Error": "Campo 'Precio' es requerido"
+}
+```
+
+4. #### DELETE /productos/:num?
+
+Elimina el producto con el número de ID especificado por parámetro. Si no se especifica ningún numero de ID, se eliminan todos los productos. 
+
+##### *- Parámetros*
+
+| Concepto | Tipo | Descripción |
+|----------|------|-------------|
+| num | Int | (opcional)Número de ID del producto. |
+
+##### *- Respuesta*
+Obtenemos un objeto del producto con la información del producto eliminado, en caso de eliminar todos nos devuelve un objeto con el mensaje que se ha eliminado de forma correcta.
+
+##### *- Error:*
+En caso de indicar por parámetro un ID no coincide con ningún ID de producto almacenado nos dará un Error con el mensaje que el producto con el ID indicado no ha sido encontrado.
+
+```json
+{
+	"Error": "Producto con ID 30 no encontrado"
+}
+```
+
+5. #### PUT /productos/:num
+
+Modifica el producto con el número de ID especificado por parámetro:
+
+##### *- Parámetros*
+
+| Concepto | Tipo | Descripción |
+|----------|------|-------------|
+| num | Int | (Obligatorio) Número de ID del producto. |
+
+##### *- Body*
+Se debe enviar un nuevo objeto con el/los conceptos a modificar.
+
+| Concepto | Tipo | Descripción |
+|----------|------|-------------|
+| nombre | string | (Obligatorio) Nombre del producto |
+| precio | number | (Obligatorio) Precio del producto |
+| categoria |string | (Obligatorio) Categoría del producto |
+
+Ejemplo ruta PUT /productos
+```json
+{
+	"nombre": "Nombre Modificado",
+	"categoria": "Geometria",
+	"precio": 111
+}
+```
+
+##### *- Respuesta*
+Obtenemos un objeto del producto con la nueva información modificada. Ejemplo:
+
+```json
+{
+	"id": 2,
+	"nombre": "Circulo",
+	"categoria": "Geometria",
+	"precio": 800
+}
+```
+
+##### *- Error:*
+En caso de indicar por parámetro un ID no coincide con ningún ID de producto almacenado nos dará un Error con el mensaje que el producto con el ID indicado no ha sido encontrado.
+
+```json
+{
+	"Error": "Producto con ID 20 no encontrado"
+}
+```
+//-------------------------------------------------------------------------------------------//
+//-----------------------------------------FIN PRODUCTOS-------------------------------------//
+//-------------------------------------------------------------------------------------------//
