@@ -2,7 +2,6 @@ import productos from '../../src/persistence/products.js'
 import message from '../../src/persistence/message.js'
 import sessions from '../../src/persistence/login.js'
 
-
 export default async function socketEvent(io) {
     io.on('connection', (socket) => {
         console.log("un cliente se ha conectado")

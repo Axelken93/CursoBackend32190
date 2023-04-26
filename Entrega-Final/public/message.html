@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrega Proyecto Final BackEnd</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+  </head>
+
+  <body>
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h1 style="color:blue;">Centro de Mensajes:</h1>
+    <br>
+
+
+    
+    <h2>Ingrese su Mensaje:</h2>
+    <form action="/chat" method="post" class="form-inline" onsubmit="return addMessage()">
+      <input type="text" id="mail" class="form-control my-2 mr-2" placeholder="Ingrese su mail" required>
+      <input type="text" id="nombre" class="form-control my-2 mr-2" placeholder="Ingrese su nombre" required>
+      <input type="text" id="apellido" class="form-control my-2 mr-2" placeholder="Ingrese su apellido" required>
+      <input type="number" id="edad" class="form-control my-2 mr-2" placeholder="Ingrese su edad" required>
+      <input type="text" id="text" class="form-control my-2 mr-2" placeholder="Cuéntanos algo..." required>
+      <input class="btn btn-primary my-2" type="submit" value="Enviar!">
+    </form>
+    <br>
+    <br>
+    <h2 style="color:crimson;">Historial de Mensajes</h2>
+    <br>
+    <div id="messages"></div>
+    <br>
+        </div>
+    </div>
+  <script src='main.js'></script>
+  </body>
+
+</html>
