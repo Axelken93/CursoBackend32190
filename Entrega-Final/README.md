@@ -540,7 +540,7 @@ Se cuenta con un canal de chat general que se apalanca en el uso de Socket.IO en
 
 Se obtiene el front del chat general de mensajes para interactuar con otros usuarios y el administrador.  Ejemplo:
 
-(imagen del front)
+![Imagen del front de `/chat`](/Entrega-Final/public/FrontExample.png)
 
 En el caso que otros clientes posteen nuevos mensajes nos aparecerán automáticamente en el cuerpo de historial de mensajes. 
 
