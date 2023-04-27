@@ -7,7 +7,7 @@ Esta API REST está diseñada para manejar la lógica de un ecommerce, permitien
 
 - [Configuración y uso](#configuración-y-uso)
 - [Autenticación y autorización](#autenticación-y-autorización)
-- [Endpoints](#endpoints)
+- [Endpoints](#endpoint)
 
 ## Configuración y uso
 
@@ -19,7 +19,7 @@ Para poder utilizar nuestra aplicación se debe primero realizar las instalacion
 
 Se deben incluir en nuestro archivo de `package.json` las siguientes dependencias e instalarlas con el comando `npm i`:
 
-```console
+```json
 "bcryptjs": "^2.4.3",
 "compression": "^1.7.4",
 "connect-mongo": "^5.0.0",
@@ -83,7 +83,7 @@ Para la autenticación, se verifica el nombre de usuario y la contraseña ingres
 ### Registro de usuario
 Para registrarse en la aplicación, el usuario debe enviar una solicitud POST a la ruta /register con su nombre, correo electrónico, contraseña, dirección y teléfono. Esta información será almacenada de forma segura en la base de datos. Ejemplo:
 
-```console
+```json
 {
 "nombre": "Axel",
 "username": "axelken93@hotmail.com",
@@ -95,7 +95,7 @@ Para registrarse en la aplicación, el usuario debe enviar una solicitud POST a 
 
 Si el registro es exitoso, el usuario será redirigido a la página de inicio de sesión. En caso contrario, se mostrará un mensaje de error en la ruta /failregister. Ejemplo:
 
-```console
+```json
 {
 "Error": "Usted ha ingresado mal algun dato. Asegurese de ingresar Nombre, Mail, Password, Direccion y telefono"
 }
@@ -107,7 +107,7 @@ Si el registro es exitoso, el usuario será redirigido a la página de inicio de
 ### Inicio de sesión
 Para iniciar sesión, el usuario debe enviar una solicitud POST a la ruta /login con su nombre de usuario y contraseña. Ejemplo:
 
-```console
+```json
 {
 "username": "axelken93@hotmail.com",
 "password": "axelken"
@@ -119,7 +119,7 @@ Si las credenciales son correctas, la sesión se inicia y se redirige al usuario
 ### Cierre de sesión
 Para cerrar la sesión, el usuario debe enviar una solicitud GET a la ruta /logout. La sesión actual se cerrará y el usuario recibirá un mensaje informando el cierre de sesion. Ejemplo:
 
-```console
+```json
 {
 "Status": "Usted ha cerrado sesion"
 }
@@ -188,13 +188,12 @@ Obtiene un producto según el ID especificado. Si no se especifica ninguna ID, s
 Obtenemos un objeto del producto con ID indicado almacenado en la base de datos. Ejemplo:
 
 ```json
-	{
-		"id": 1,
-		"nombre": "Cuadrado",
-		"categoria": "Geometria",
-		"precio": 444
-	}
-
+{
+    "id": 1,
+    "nombre": "Cuadrado",
+    "categoria": "Geometria",
+    "precio": 444
+}
 ```
 
 ##### *- Error:*
@@ -282,7 +281,7 @@ Se debe enviar un nuevo objeto con el/los conceptos a modificar.
 | precio | number | (Obligatorio) Precio del producto |
 | categoria |string | (Obligatorio) Categoría del producto |
 
-Ejemplo ruta PUT /productos
+Ejemplo ruta PUT `/productos`
 ```json
 {
 	"nombre": "Nombre Modificado",
@@ -311,6 +310,295 @@ En caso de indicar por parámetro un ID no coincide con ningún ID de producto a
 	"Error": "Producto con ID 20 no encontrado"
 }
 ```
-//-------------------------------------------------------------------------------------------//
-//-----------------------------------------FIN PRODUCTOS-------------------------------------//
-//-------------------------------------------------------------------------------------------//
+
+### Carrito
+
+Sobre este endpoint podemos obtener, modificar o eliminar nuestro carrito de compras. A continuación, detallamos una lista de los métodos HTTP disponibles para este endpoint:
+
+1. #### GET /carrito
+
+Obtiene un detalle del carrito. 
+
+##### *- Respuesta*
+
+En el caso que el usuario si tenga un carrito previamente almacenado en la base de datos obtenemos un objeto con la siguiente información:
+- ID: número único identificatorio en nuestra base de datos del carrito
+- Mail: Correo electrónico del usuario autentificado en la sesión.
+- Fecha: En la cual se posteo el carrito
+- Productos: Detalle de los productos que contiene dicho carrito.
+- Dirección: De entrega de los productos. 
+
+Ejemplo:
+
+```json
+[
+	{
+		"id": 3,
+		"mail": "axelken93@hotmail.com",
+		"fecha": "23/4/2023, 18:53:49",
+		"productos": [
+			{
+				"nombre": "Mexico",
+				"precio": 4,
+				"cantidad": 1
+			},
+			{
+				"nombre": "Senegal",
+				"precio": 6,
+				"cantidad": 2
+			}
+		],
+		"direccion": "Montevideo, Uruguay"
+	}
+]
+```
+##### *- Error:*
+En el caso que el usuario autentificado no tenga un carrito previamente almacenado en la base de datos obtendremos un error con el mensaje que no posee un carrito. Ejemplo:
+
+```json
+{
+	"Error": "No se encontro ningun carrito para el usuario: \"axelken93@hotmail.com\""
+}
+```
+
+3. #### POST /carrito
+
+Crea y almacena un nuevo carrito. 
+
+##### *- Body*
+
+| Concepto | Tipo | Descripción |
+|----------|------|-------------|
+| productos | array | (Obligatorio) Listado de productos |
+| direccion | string | (Obligatorio) Dirección de entrega |
+
+
+##### *- Respuesta*
+
+Obtenemos un objeto del carrito con la información enviada en el body y además se incorpora el número de ID que le corresponde que ha sido generado de forma incremental y automáticamente, el mail del usuario con la sesión activa y la fecha y hora que se postea el nuevo carrito. Ejemplo: 
+
+```json
+{
+    "id": 3,
+    "mail": "axelken93@hotmail.com",
+    "fecha": "23/4/2023, 18:53:49",
+    "productos": [
+        {
+            "nombre": "Mexico",
+            "precio": 4,
+            "cantidad": 1
+        },
+        {
+            "nombre": "Senegal",
+            "precio": 6,
+            "cantidad": 2
+        }
+    ],
+    "direccion": "Montevideo, Uruguay"
+}
+```
+
+##### *- Error:*
+En el caso de tener un carrito ya almacenado en la base de datos para el usuario con la sesion activa nos devolverá un error con el mensaje de que ya se posee un carrito. En caso de enviar un objeto por body que no incluya algun campo obligatorio (producto o direccion) nos devuelve un error con el mensaje que dicho campo es requerido. Ejemplo:
+
+```json
+{
+	"Error": "Usted ya posee un carrito, favor de modificar el carrito actual"
+}
+```
+
+4. #### DELETE /carrito/:num?
+
+Elimina el carrito con el número de ID especificado por parámetro. Si no se especifica ningún número de ID, se eliminan todos los carritos del usuario. 
+
+##### *- Parámetros*
+
+| Concepto | Tipo | Descripción |
+|----------|------|-------------|
+| num | Int | (opcional)Número de ID del carrito. |
+
+##### *- Respuesta*
+Obtenemos un objeto del carrito con la información del producto eliminado, en caso de eliminar todos nos devuelve un objeto con el mensaje que se ha eliminado de forma correcta.
+
+```json
+{
+	"Estatus": "Objeto eliminado correctamente"
+}
+```
+
+##### *- Error:*
+En caso de indicar por parámetro un ID no coincide con ningún ID de carrito almacenado nos dará un Error con el mensaje que el carrito con el ID indicado no ha sido encontrado.
+
+```json
+{
+	"Error": "Carrito con ID 1 no encontrado"
+}
+```
+
+5. #### PUT /carrito/:num
+
+Modifica el carrito con el número de ID especificado por parámetro:
+
+##### *- Parámetros*
+
+| Concepto | Tipo | Descripción |
+|----------|------|-------------|
+| num | Int | (Obligatorio) Número de ID del carrito. |
+
+##### *- Body*
+Se debe enviar un nuevo objeto con el/los conceptos a modificar.
+
+| Concepto | Tipo | Descripción |
+|----------|------|-------------|
+| productos | array | (Obligatorio) Listado de productos |
+| direccion | string | (Obligatorio) Dirección de entrega |
+
+
+Ejemplo ruta PUT `/carrito/1`
+```json
+{
+	"productos": [{
+		"nombre": "MODIFICADO",
+		"precio": 40,
+		"cantidad": 10}],
+	"direccion": "Montevideo, Uruguay"
+}
+```
+
+##### *- Respuesta*
+Obtenemos un objeto del producto con la nueva información modificada. Ejemplo:
+
+```json
+{
+	"id": 1,
+	"productos": [
+		{
+			"nombre": "MODIFICADO",
+			"precio": 40,
+			"cantidad": 10
+		}
+	],
+	"direccion": "Montevideo, Uruguay"
+}
+```
+
+##### *- Error:*
+En caso de indicar por parámetro un ID no coincide con ningún ID de carrito almacenado nos dará un Error con el mensaje que el carrito con el ID indicado no ha sido encontrado.
+
+```json
+{
+	"Error": "Carrito con ID 20 no encontrado"
+}
+```
+
+### Ordenes
+
+Utilizamos este endpoint para poder concretar la compra de los productos seleccionados en el carrito. A continuación, detallamos el método HTTP disponible:
+
+1. #### GET /finalizar_orden
+
+Finaliza la orden de compra con la información que brinda el carrito del usuario con sesión activa y además activa la funcionalidad de enviar un mail al usuario y administrador con la orden concretada. 
+
+##### *- Respuesta*
+
+En el caso que el usuario tenga un carrito previamente almacenado en la base de datos obtenemos un objeto el mensaje que la orden se proceso correctamente y el numero de referencia. Ejemplo:
+
+```json
+{
+	"Estatus": "Orden procesada correctamente",
+	"Nro_Orden": 3
+}
+```
+
+##### *- Error:*
+En el caso que el usuario no tenga un carrito previamente almacenado en la base de datos obtenemos un error con el mensaje que no se puede finalizar la compra porque no posee carrito.
+
+```json
+{
+	"Error": "No se puede finalizar la compra dado que no tiene un carrito."
+}
+```
+
+##### *- Notificación*
+
+Al finalizar una orden, se enviará automáticamente un correo electrónico al mail del administrador del api y al correo electrónico del cliente. 
+
+### Sistema de Chat
+
+Se cuenta con un canal de chat general que se apalanca en el uso de Socket.IO en el cual los usuarios van a poder enviar mensajes y contactarse con el administrador en un chat general. Puede consultar la
+[documentación de Socket.IO](https://socket.io/docs/v4/) para mas información como utilizarla.
+
+#### Recursos disponibles:
+
+| Método HTTP | Ruta | Descripción |
+|----------|------|-------------|
+| GET | /chat | Muestra el front de Central de Mensajes e historial. |
+| GET | /chat:mail | Muestra el listado de mensajes filtrados por el mail indicado |
+| POST | /chat | Envía un nuevo mensaje. |
+
+1. #### GET /chat
+
+Se obtiene el front del chat general de mensajes para interactuar con otros usuarios y el administrador.  Ejemplo:
+
+(imagen del front)
+
+En el caso que otros clientes posteen nuevos mensajes nos aparecerán automáticamente en el cuerpo de historial de mensajes. 
+
+##### *- Manejo de Errores*
+
+Esta ruta esta protegida por un middleware el cual impide acceder al historial de mensajes y postear nuevos mensajes si el usuario no inicio sesión correctamente.
+
+2. #### GET /chat/:mail
+
+Se obtienen los mensajes que han sido enviados por un usuario identificado por su mail. Ejemplo:
+
+```json
+[
+    {
+        "mail":"abalbibieco@gmail.com",
+        "nombre":"Florencia",
+        "apellido":"Rubalcaba",
+        "edad":22,
+        "texto":"Hola a todos",
+        "fecha":"23/4/2023, 16:26:35"
+    },
+    {
+        "mail":"abalbibieco@gmail.com",
+        "nombre":"Florencia",
+        "apellido":"Balbi Bieco",
+        "edad":1,
+        "texto":"Probando mensajes en Mongo atlas",
+        "fecha":"25/4/2023, 23:23:03"
+    }
+]
+```
+
+##### *- Manejo de Errores*
+
+En el caso que el mail ingresado no haya posteado ningún mensaje veremos un array vacio. 
+
+
+3. #### POST /chat
+
+Se guarda un nuevo mensaje y se visualiza automáticamente en el centro de mensajes.
+
+##### *- Body*
+Se debe completar el formulario con los siguientes conceptos:
+
+| Concepto | Tipo | Requisito |
+|----------|------|-------------|
+| Mail | string | Obligatorio |
+| Nombre | string | Obligatorio |
+| Apellido | string | Obligatorio |
+| Edad | number | Obligatorio |
+| texto | string | Obligatorio |
+
+##### *- Manejo de Errores*
+
+En el caso que no se complete algún campo nos devolverá un error con el mensaje de que el campo es de carácter obligatorio. Ejemplo:
+
+```json
+{
+    "Error": "Campo 'apellido' es requerido"
+}
+```
